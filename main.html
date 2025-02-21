@@ -1,45 +1,106 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-	<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+        h2 {
+            text-align: center;
+        }
+        table {
+            width: 50%;
+            margin: auto;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        #calculate {
+            display: block;
+            margin: 20px auto;
+            padding: 10px;
+            background: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #calculate:hover {
+            background: darkblue;
+        }
+        .total-row {
+            font-weight: bold;
+            background: lightgray;
+        }
+    </style>
 </head>
-
 <body>
-    <!-- the entire body must be written by student -->
-    <table style="width: 100%">
-    <caption>
-      Monthly savings
-    </caption>
-    <tr>
-      <th>Item</th>
-      <th>Prices in Rs</th>
-    </tr>
-    <tr>
-      <td class="item">Tea</td>
-      <td class="price">50</td>
-    </tr>
-    <tr>
-      <td class="item">Coffee</td>
-      <td class="price">70</td>
-    </tr>
-    <tr>
-      <td class="item">Biscuits</td>
-      <td class="price">100</td>
-    </tr>
-    <tr>
-      <td class="item">Rice</td>
-      <td class="price">130</td>
-    </tr>
-    <tr>
-      <td class="item">Milk</td>
-      <td class="price">50</td>
-    </tr>
-  </table>
-    <script type="text/javascript" src="./script.js">
-</script>
+
+    <h2>Grocery List</h2>
+    <table id="grocery-table">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="item">
+                <td>Apples</td>
+                <td class="prices">10</td>
+            </tr>
+            <tr class="item">
+                <td>Bananas</td>
+                <td class="prices">5</td>
+            </tr>
+            <tr class="item">
+                <td>Oranges</td>
+                <td class="prices">8</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button id="calculate">Calculate Total</button>
+
+    <script>
+        document.getElementById('calculate').addEventListener('click', function() {
+            const prices = document.querySelectorAll('.prices');
+            let total = 0;
+
+            prices.forEach(price => {
+                total += parseFloat(price.textContent);
+            });
+
+            let table = document.getElementById('grocery-table');
+            let existingTotalRow = document.querySelector('.total-row');
+            
+            if (existingTotalRow) {
+                existingTotalRow.remove();
+            }
+
+            let newRow = document.createElement('tr');
+            newRow.classList.add('total-row');
+            let totalCell = document.createElement('td');
+            totalCell.setAttribute('colspan', '2');
+            totalCell.textContent = `Total Price: $${total.toFixed(2)}`;
+
+            newRow.appendChild(totalCell);
+            table.appendChild(newRow);
+        });
+    </script>
 
 </body>
-
 </html>
