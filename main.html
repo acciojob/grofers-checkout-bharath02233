@@ -28,19 +28,6 @@
         th {
             background-color: #f4f4f4;
         }
-        #calculate {
-            display: block;
-            margin: 20px auto;
-            padding: 10px;
-            background: blue;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        #calculate:hover {
-            background: darkblue;
-        }
         .total-row {
             font-weight: bold;
             background: lightgray;
@@ -57,34 +44,35 @@
                 <th>Price</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="table-body">
             <tr class="item">
                 <td>Apples</td>
-                <td class="prices">10</td>
+                <td contenteditable="true" class="prices">10</td>
             </tr>
             <tr class="item">
                 <td>Bananas</td>
-                <td class="prices">5</td>
+                <td contenteditable="true" class="prices">5</td>
             </tr>
             <tr class="item">
                 <td>Oranges</td>
-                <td class="prices">8</td>
+                <td contenteditable="true" class="prices">8</td>
             </tr>
         </tbody>
     </table>
 
-    <button id="calculate">Calculate Total</button>
-
     <script>
-        document.getElementById('calculate').addEventListener('click', function() {
+        function calculateTotal() {
             const prices = document.querySelectorAll('.prices');
             let total = 0;
 
             prices.forEach(price => {
-                total += parseFloat(price.textContent);
+                let value = parseFloat(price.textContent);
+                if (!isNaN(value)) {
+                    total += value;
+                }
             });
 
-            let table = document.getElementById('grocery-table');
+            let tableBody = document.getElementById('table-body');
             let existingTotalRow = document.querySelector('.total-row');
             
             if (existingTotalRow) {
@@ -98,8 +86,12 @@
             totalCell.textContent = `Total Price: $${total.toFixed(2)}`;
 
             newRow.appendChild(totalCell);
-            table.appendChild(newRow);
-        });
+            tableBody.appendChild(newRow);
+        }
+
+        document.addEventListener('input', calculateTotal);
+
+        window.onload = calculateTotal;
     </script>
 
 </body>
